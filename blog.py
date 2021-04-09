@@ -25,5 +25,26 @@ def home():
     results = cursor.fetchall()
     return render_template("home.html", results=results)
 
+@app.route("/add", methods= ["GET","POST"])
+def add():
+    if request.method == "POST":
+        cursor = get_db().cursor()
+        new_name = request.form["article_name"]
+        new_desciption = request.form["article_description"]
+        sql = "INSERT INTO contents(name,description) VALUES (?,?)"
+        cursor.execute(sql, (new_name, new_desciption))
+        get_db().commit()
+    return redirect('/')
+
+@app.route('/delete', methods= ["GET","POST"])
+def delete():
+    if request.method == "POST":
+        cursor = get_db().cursor()
+        id = int(request.form["article_name"])
+        sql = "DELETE FROM contents WHERE id=?"
+        cursor.execute(sql,(id,))
+        get_db().commit()
+    return redirect('/')
+
 if __name__ == "__main__":
     app.run(debug=True)

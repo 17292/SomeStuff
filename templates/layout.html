@@ -1,12 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename= 'style.css')}}">
     <title>Document</title>
+
 </head>
+
 <body>
-    {%block body%}
-    {%endblock%}
+    <div class="bd-example">
+        <div class="main_image">
+            <img src="{{ url_for('static', filename= 'anti-bullying.jpg')}}" alt="Blog" class="center">
+        </div>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Delete?</th>
+            </tr>
+            <tr>
+                <td>
+                    <form action="/delete" method="post">
+                        <input type="hidden" name="article_name">
+                        <input type="submit" value="delete">
+                    </form>
+                </td>
+            </tr>
+            {%block body%}
+            {%endblock%}
+        </table>
+    </div>
 </body>
+
 </html>

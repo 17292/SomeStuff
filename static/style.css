@@ -1,0 +1,28 @@
+header {
+    text-align: center;
+  }
+
+  img {
+    width: 50%;
+    height: auto;
+  }
+
+.bd-example{
+  align-items: center;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+body {
+    background-color: rgb(250, 233, 156);
+    height: 400px;
+}
+
+h1 {
+  color: rgb(231, 128, 9);
+}
