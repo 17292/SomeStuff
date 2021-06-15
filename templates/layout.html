@@ -10,28 +10,25 @@
 </head>
 
 <body>
-    <div class="bd-example">
-        <div class="main_image">
-            <img src="{{ url_for('static', filename= 'anti-bullying.jpg')}}" alt="Blog" class="center">
-        </div>
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Delete?</th>
-            </tr>
-            <tr>
-                <td>
-                    <form action="/delete" method="post">
-                        <input type="hidden" name="article_name">
-                        <input type="submit" value="delete">
-                    </form>
-                </td>
-            </tr>
-            {%block body%}
-            {%endblock%}
-        </table>
+    <div class="topnav">
+        <a class="active" href="{{url_for('home')}}">Home</a>
+        <a href="{{url_for('article')}}">Article</a>
+        <a href="{{url_for('contact')}}">Contact</a>
+        <a href="{{url_for('login')}}">Login</a>
+        <a href="{{url_for('profile')}}">Profile</a>
     </div>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flashes>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    {%block body%}
+    {%endblock%}
 </body>
 
 </html>

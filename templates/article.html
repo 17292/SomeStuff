@@ -1,0 +1,37 @@
+{%extends "layout.html"%}
+{%block body%}
+<header>
+<h1>SHARE YOUR STORY</h1>
+</header>
+
+<div class="bd-example">
+    <div class="main_image">
+        <img src="{{ url_for('static', filename= 'world.png')}}" alt="Blog" class="center">
+    </div>
+    
+    <table>
+        {% for article in results %}
+        <tr>
+            <div class= "box">
+                <div><h2><p class="p1">{{ article[1] }}</p></h2></div>
+                <div><p>{{ article[2] }}</p></div>
+            </div>
+            <div>
+                <form action="/delete" method="post">
+                    <input type="hidden" name="article_heading" value="{{article[0]}}">
+                    <input type="submit" value="delete">
+                </form>
+            </div>
+        </tr>
+        {% endfor %}
+    </table>
+    <div class= "form">
+        <form action= "/add" method= "post">
+        <h2>Enter an Article</h2>
+        <input type= "text" id="article_heading" name= "article_heading" maxlength="100">
+        <input type= "text" id="article_body" name="article_body" maxlength="500">
+        <input type= "submit" value= "add">
+    </div>
+    </form>
+</div>
+{%endblock%}
