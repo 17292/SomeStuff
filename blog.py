@@ -1,7 +1,11 @@
+# Imports flask
 from flask import Flask,g, render_template, request, redirect, session, url_for, g, abort, flash  
 import sqlite3
+import os.path
 from flask.helpers import flash
 
+
+# Global variable
 class User:
     def __init__(self,id,username,password):
         self.id = id
@@ -9,8 +13,9 @@ class User:
         self.password = password
 
     def __repr__(self):
-        return f"<User:{self.username}"
+        return f"<User: {self.username}>"
 
+# List of users
 users = []
 users.append(User(id=1, username= "Micah", password= "1234"))
 
@@ -19,15 +24,19 @@ print(users)
 app = Flask(__name__)
 app.secret_key = "secret"
 
+# Checks sessions and places it in g object 
 @app.before_request
 def before_request():
     g.user = None
     if "user_id" in session:
+        # Finds user's id
         user = [x for x in users if x.id == session["user_id"]][0]
         g.user = user
 
-DATEBASE = "blog.db"
+# Makes a connection with database
+DATABASE = "blog.db"
 
+# Login system 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -35,6 +44,7 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
         for user in users:
+            # If users can't supply the correct username and password a warning sign pops up
             if user.username == username and user.password == password:
                 session["user_id"] = user.id
                 return redirect(url_for("home"))
@@ -42,34 +52,40 @@ def login():
             return redirect(url_for("login"))  
     return render_template("login.html")
 
+# Users that has logged in have a button that'll log them out
 @app.route ("/logout")
 def logout():
     session.pop ("user_id", None)
     return redirect(url_for("login"))  
 
+# A page of the user's profile
 @app.route("/profile")
 def profile():
+    # Users can't access their profile unless they login first
     if not g.user:
         return redirect(url_for("login"))
 
     return render_template("profile.html")
 
+# Connects to the database
 def get_db():
     db= getattr(g, "_datebase", None)
     if db is None:
-        db = g._datebase = sqlite3.connect(DATEBASE)
+        db = g._datebase = sqlite3.connect(DATABASE)
     return db
-
+ 
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, "_datebase", None)
     if db is not None:
         db.close()
 
+# Route to home.html
 @app.route("/")
 def home():
     return render_template("home.html")
 
+# Gets articles from the database
 @app.route("/article")
 def article():
     cursor = get_db().cursor()
@@ -78,13 +94,19 @@ def article():
     results = cursor.fetchall()
     return render_template("article.html", results=results)
     
-
+# A route to the contant page
 @app.route("/contact")
 def contact():
     return render_template("contact.html") 
 
+# Adds articles to article.html 
 @app.route("/add", methods= ["GET","POST"])
 def add():
+    # User has to login to add articles
+    if not g.user:
+        return redirect(url_for("login"))
+    # Once logged in user can upload their post
+    # They can upload as many headings and articles as they want 
     if request.method == "POST":
         cursor = get_db().cursor()
         new_heading = request.form["article_heading"]
@@ -94,8 +116,14 @@ def add():
         get_db().commit()
     return redirect('/')
 
+# Deletes articles that have been posted
 @app.route('/delete', methods= ["GET","POST"])
 def delete():
+    # User has to login before able to delete
+    if not g.user:
+        return redirect(url_for("login"))
+    # Once logged in user can delete posts   
+    # They can delete as many headings and articles as they want   
     if request.method == "POST":
         cursor = get_db().cursor()
         id = int(request.form["article_heading"])

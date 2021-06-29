@@ -16,6 +16,8 @@
         <a href="{{url_for('contact')}}">Contact</a>
         <a href="{{url_for('login')}}">Login</a>
         <a href="{{url_for('profile')}}">Profile</a>
+        <a href="{{ url_for('logout') }}" class= "logoutbutton" type="button" onclick="alert('You have successfully logged out!')">Logout</a>
+
     </div>
     {% with messages = get_flashed_messages() %}
     {% if messages %}
