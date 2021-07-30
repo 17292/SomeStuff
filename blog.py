@@ -1,3 +1,4 @@
+
 # Imports flask
 from flask import Flask,g, render_template, request, redirect, session, url_for, g, abort, flash  
 import sqlite3
@@ -17,12 +18,13 @@ class User:
 
 # List of users
 users = []
-users.append(User(id=1, username= "Micah", password= "1234"))
+users.append(User(id=0, username= "Micah", password= "1234"))
 
 print(users)
 
 app = Flask(__name__)
 app.secret_key = "secret"
+
 
 # Checks sessions and places it in g object 
 @app.before_request
@@ -30,8 +32,9 @@ def before_request():
     g.user = None
     if "user_id" in session:
         # Finds user's id
-        user = [x for x in users if x.id == session["user_id"]][0]
-        g.user = user
+        for user in users:
+            if user.id == session["user_id"]:
+                g.user = user
 
 # Makes a connection with database
 DATABASE = "blog.db"
@@ -43,6 +46,11 @@ def login():
         session.pop("user_id", None)
         username = request.form["username"]
         password = request.form["password"]
+        if request.form.get("register"):
+            user = User(len(users), username, password)
+            users.append(user)
+            session["user_id"] = user.id
+            return redirect(url_for("home"))
         for user in users:
             # If users can't supply the correct username and password a warning sign pops up
             if user.username == username and user.password == password:
@@ -57,7 +65,7 @@ def login():
 def logout():
     session.pop ("user_id", None)
     return redirect(url_for("login"))  
-
+    
 # A page of the user's profile
 @app.route("/profile")
 def profile():
@@ -110,7 +118,11 @@ def add():
     if request.method == "POST":
         cursor = get_db().cursor()
         new_heading = request.form["article_heading"]
+        if len(new_heading) > 20:
+            return redirect("/add")
         new_body = request.form["article_body"]
+        if len(new_body) > 500:
+            return redirect("/add")
         sql = "INSERT INTO article(heading,body) VALUES (?,?)"
         cursor.execute(sql, (new_heading, new_body))
         get_db().commit()
