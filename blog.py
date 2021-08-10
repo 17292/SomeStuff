@@ -50,7 +50,7 @@ def login():
             user = User(len(users), username, password)
             users.append(user)
             session["user_id"] = user.id
-            return redirect(url_for("home"))
+            return redirect(url_for("profile"))
         for user in users:
             # If users can't supply the correct username and password a warning sign pops up
             if user.username == username and user.password == password:
