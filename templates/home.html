@@ -1,11 +1,13 @@
 {%extends "layout.html"%}
 {%block body%}
+<!-- Title and description -->
 <div class="bd-example">
     <div class="card">
         <h1>THE BE KIND CORNER</h1>
         <p>Welcome to "The Be Kind Corner" where  people can upload positive messages and articles in hopes to decrease the negative impact bullying has. Read, share and write articles about people being care!</p>
     </div>
 
+<!-- Right column -->
 <div class="card1">
         <h2>Rules:</h2>
     <ul>
@@ -14,6 +16,9 @@
         <li>Be respectful</li>
     </ul>
 </div>
+<!-- End of right column -->
+
+<!-- Left column -->
 <div class="card2">
         <h2>Top quotes:</h2>
     <ol>
@@ -22,7 +27,9 @@
         <li>“Unexpected kindness is the most powerful, least costly, and most underrated agent of human change.” – Bob Kerrey</li>
     </ol>
 </div>
+<!-- End of left column -->
 
+<!-- Inspiritional images -->
     <div class="row">
         <div>
             <img src="{{ url_for('static', filename= 'believe.jpg')}}" alt="Blog" class="column">
@@ -42,7 +49,7 @@
     </table>
 </div>
 
-
+<!-- Article images -->
 <div class="cow">
     <h3>Stories:</h3>
     <div>
@@ -56,13 +63,14 @@
     </div>
 </div>
 
+<!-- Article titles -->
 <div class="rock">
-    <p>Chicago Coffee Shop Owner Has Collected 6,000 Warm Coats for the Homeless–And Delivered Them With Coffee</p>
+    <p><a href="http://127.0.0.1:5000/article">Chicago Coffee Shop Owner Has Collected 6,000 Warm Coats for the Homeless–And Delivered Them With Coffee</a></p>
 </div>
 <div class="rock">
-    <p>Lichfield teenager carries out acts of kindness to help lonely</p>
+    <p><a href="http://127.0.0.1:5000/article">Lichfield teenager carries out acts of kindness to help lonely</a></p>
 </div>
 <div class="rock">
-    <p>Duncan, B.C., 70-year-old hailed as hero after pulling neighbour from burning trailer</p>
+    <p><a href="http://127.0.0.1:5000/article">Duncan, B.C., 70-year-old hailed as hero after pulling neighbour from burning trailer</a></p>
 </div>
 {%endblock%}

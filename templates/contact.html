@@ -1,9 +1,13 @@
 
   {%extends "layout.html"%}
   {%block body%}
-  <h1>Contact Us!</h1>
-  <img src="{{ url_for('static', filename= 'contact-us-.png')}}" alt="Blog" class="contacts">
-  <table>
+  <div class= "about-section">
+      <!-- Title and images -->
+    <h1>Contact Us!</h1>
+    <img src="{{ url_for('static', filename= 'contact-us-.png')}}" alt="Blog" class="contacts">
+  </div>
+  <!-- Contact table -->
+ <table>
     <tr>
       <th>Instagram:</th>
       <th>@bhs_peer_mediation</th>
@@ -17,4 +21,48 @@
       <th>anti-bullying@burnside.school.nz</th>
     </tr>
   </table>
-  {%endblock%}
+    <!-- End of contact table -->
+
+    <!-- Team section -->
+  <h2>Our Team</h2>
+  <div class="row">
+    <div class="column">
+      <div class="card">
+        <img  class= "men" src="{{ url_for('static', filename= 'men.png')}}" alt="James">
+        <div class="container">
+          <h2>James Doe</h2>
+          <p class="title">CEO & Founder</p>
+          <p>Some text that describes me lorem ipsum ipsum lorem.</p>
+          <p>James@example.com</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="card">
+        <img class= "mike" src="{{ url_for('static', filename= 'mike.png')}}" alt="Mike">
+        <div class="container">
+          <h2>Mike Ross</h2>
+          <p class="title">Peer Support</p>
+          <p>Some text that describes me lorem ipsum ipsum lorem.</p>
+          <p>Mike@example.com</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="card">
+        <img class= woman src="{{ url_for('static', filename= 'woman.png')}}" alt="Mia">
+        <div class="container">
+          <h2>Mia Doe</h2>
+          <p class="title">Designer</p>
+          <p>Some text that describes me lorem ipsum ipsum lorem.</p>
+          <p>Mia@example.com</p>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- End of team section -->
+
+ 
+   {%endblock%}

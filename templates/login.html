@@ -11,6 +11,7 @@
   <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 </head>
 
+<!-- Login layout -->
 <body>
   <section class="hero is-info is-fullheight">
     <div class="hero-body">
@@ -18,9 +19,11 @@
         <div class="columns is-centered">
           <div class="dog">
             <form method="POST">
+              <!-- Image -->
               <div class="imgcontainer">
                 <img src="{{ url_for('static', filename= 'Profile.png')}}" alt="Avatar" class="avatar">
               </div>
+              <!-- Username box -->
               <div class="field">
                 <label class="label">Username</label>
                 <div class="control has-icons-left has-icons-right">
@@ -30,6 +33,7 @@
                   </span>
                 </div>
               </div>
+              <!-- Password box -->
               <div class="field">
                 <label class="label">Password</label>
                 <p class="control has-icons-left">
@@ -39,6 +43,7 @@
                   </span>
                 </p>
               </div>
+              <!-- Login and register button -->
               <div class="field">
                 <p class="control">
                   <button type="submit" class="login">

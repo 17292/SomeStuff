@@ -9,6 +9,7 @@
 
 </head>
 
+<!-- Navigation bar -->
 <body>
     <div class="topnav">
         <a class="active" href="{{url_for('home')}}">Home</a>
@@ -23,6 +24,7 @@
         
     </div>
 
+<!-- Log out warning -->    
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     <ul class=flashes>

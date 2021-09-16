@@ -46,6 +46,7 @@ def login():
         session.pop("user_id", None)
         username = request.form["username"]
         password = request.form["password"]
+        # Allows the user to register 
         if request.form.get("register"):
             user = User(len(users), username, password)
             users.append(user)

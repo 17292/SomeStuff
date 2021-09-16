@@ -6,24 +6,89 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Profile Page</title>
     <link rel="stylesheet" href="{{url_for('static',filename= 'style.css')}}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
+  
   <body>
     <section class="hero is-success is-fullheight">
       <div class="hero-body">
         <div class="container">
           <h1 class="title">
-            {{g.user.username}}'s Profile
+            Welcome to our page!
           </h1>
-          <h2 class="subtitle">
-            You are user number #{{g.user.id}}
-          </h2>
         </div>
       </div>
     </section>
   </body>
+</html>
+
+<!-- Page Container -->
+<div class="w3-content-w3-margin-top">
+
+  <!-- The Grid -->
+  <div class="w3-row-padding">
+  
+    <!-- Left Column -->
+    <div class="w3-third">
+    
+      <div class="w3-white w3-text-grey w3-card-4"> 
+        <div class="w3-display-container">
+          <img src="{{ url_for('static', filename= 'Profile.png')}}" alt="Avatar" class="userprofile">
+          <div class="w3-display-bottomleft w3-container w3-text-black">
+          </div>
+        </div>
+        <div class="w3-container">
+          <h1 class="title">
+            {{g.user.username}}'s Profile
+          </h1>
+          <h2 class="title">
+            You are user number #{{g.user.id}}
+          </h2>
+        </div>
+      </div> <!-- w3-white w3-text-grey w3-card-4 -->
+    <!-- End Left Column -->
+    </div><br>
+  
+<!-- Right Column -->
+<div class="w3-twothird">
+    
+  <div class="w3-container w3-card w3-white w3-margin-bottom">
+    <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Bio</h2>
+    <div class="w3-container">
+      <h5 class="w3-opacity"><b>Front End Developer / w3schools.com</b></h5>
+      <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Jan 2015 - <span class="w3-tag w3-teal w3-round">Current</span></h6>
+      <p>Lorem ipsum dolor sit amet. Praesentium magnam consectetur vel in deserunt aspernatur est reprehenderit sunt hic. Nulla tempora soluta ea et odio, unde doloremque repellendus iure, iste.</p>
+      <hr>
+    </div>
+  </div>
+
+  <div class="w3-container w3-card w3-white">
+    <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>History</h2>
+    <div class="w3-container">
+      <h5 class="w3-opacity"><b>W3Schools.com</b></h5>
+      <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Forever</h6>
+      <p>Web Development! All I need to know in one place</p>
+    </div>
+  </div>
+
+<!-- End Right Column -->
+</div>
+
+    
+  <!-- End Grid -->
+  </div>
+  
+  <!-- End Page Container -->
+</div>
+
+</body>
 </html>
 
 {%endblock%}

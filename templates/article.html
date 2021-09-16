@@ -1,14 +1,16 @@
 {%extends "layout.html"%}
 {%block body%}
+  <!-- Title -->
 <header>
 <h1>SHARE YOUR STORY</h1>
 </header>
-
+  <!-- Images -->
 <div class="bd-example">
     <div class="main_image">
         <img src="{{ url_for('static', filename= 'world.png')}}" alt="Blog" class="center">
     </div>
-    
+
+  <!-- Section for articles -->    
     <table>
         {% for article in results %}
         <tr>

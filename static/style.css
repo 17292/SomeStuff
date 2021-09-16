@@ -1,4 +1,5 @@
 /* home page */
+
 header {
   padding: 10px;
   text-align: center;
@@ -46,6 +47,7 @@ body {
     background-color: rgb(250, 233, 156);
     height: 400px;
     padding: 10px;
+    text-align:alignment type;
 }
 
 h1, h2, h3 {
@@ -205,8 +207,6 @@ ul, ol{
 
 .hero-body {
   background-color: rgb(250, 233, 156);
-  height: 400px;
-  padding: 10px;
   text-align: center;
 }
 
@@ -250,7 +250,6 @@ input, .login{
 }
 
 /* article page */
-
 .form {
   text-align: center;
 }
@@ -279,6 +278,7 @@ p{
 
 /* contact page */
 
+/* Contact table */
 .contacts {
   display: block;
   margin-left: auto;
@@ -300,3 +300,44 @@ table {
   margin-left: auto;
   margin-right: auto;
 }
+
+/* Image of James */
+.men {
+  width: 80%;
+}
+
+/* Image of Mike */
+.mike{
+  width: 80%;
+}
+
+/* Image of Mia */
+.woman{
+  width: 80%;
+}
+
+/* Profile page */
+
+/* Page Container */
+.w3-content-w3-margin-top{
+  width: 1400px;
+}
+
+/* User's profile photo */
+.userprofile{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+/* Typography */
+.title{
+  color: rgb(231, 128, 9);
+  text-align: center;
+  background-color: #fffae6;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-weight: lighter;
+  font-size: xx-large;
+}
+
