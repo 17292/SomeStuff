@@ -1,4 +1,3 @@
-
 # Imports flask
 from flask import Flask,g, render_template, request, redirect, session, url_for, g, abort, flash  
 import sqlite3
@@ -20,7 +19,7 @@ class User:
 users = []
 users.append(User(id=0, username= "Micah", password= "1234"))
 
-print(users)
+# print(users)
 
 app = Flask(__name__)
 app.secret_key = "secret"
@@ -49,22 +48,32 @@ def login():
         # Allows the user to register 
         if request.form.get("register"):
             user = User(len(users), username, password)
+            print(users)
             users.append(user)
+            print(users)
             session["user_id"] = user.id
             return redirect(url_for("profile"))
+        print(users)
         for user in users:
+            print(user)
             # If users can't supply the correct username and password a warning sign pops up
+            print(user.username, user.password, username, password)
             if user.username == username and user.password == password:
                 session["user_id"] = user.id
                 return redirect(url_for("home"))
-            flash("Failed to login")
-            return redirect(url_for("login"))  
+        flash("Failed to login")
+        return redirect(url_for("login"))
+    else:
+        print("hello")
     return render_template("login.html")
 
 # Users that has logged in have a button that'll log them out
 @app.route ("/logout")
 def logout():
-    session.pop ("user_id", None)
+    if "user_id" in session:
+        flash("logged out successfully")
+        session.pop ("user_id", None)
+    print(users)
     return redirect(url_for("login"))  
     
 # A page of the user's profile
@@ -73,8 +82,11 @@ def profile():
     # Users can't access their profile unless they login first
     if not g.user:
         return redirect(url_for("login"))
-
-    return render_template("profile.html")
+    cursor = get_db().cursor()
+    sql = "SELECT bio from user where id = ?"
+    cursor.execute(sql,(session["user_id"],))
+    bio = cursor.fetchone() 
+    return render_template("profile.html", bio=bio)
 
 # Connects to the database
 def get_db():
@@ -144,6 +156,22 @@ def delete():
         cursor.execute(sql,(id,))
         get_db().commit()
     return redirect('/')
+
+@app.route('/bio', methods= ["GET","POST"])
+def bio():
+    if not g.user:
+        return redirect(url_for("login"))
+    if request.method == "POST":
+        cursor = get_db().cursor()
+        bio_page = request.form["bio"]
+        if len(bio_page) > 50:
+                return redirect("/bio")
+        sql = "INSERT INTO user(bio) VALUES (?)"
+        cursor.execute(sql, (bio_page,))
+        get_db().commit()
+    return redirect('/')
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
