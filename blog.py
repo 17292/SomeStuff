@@ -3,6 +3,7 @@ from flask import Flask,g, render_template, request, redirect, session, url_for,
 import sqlite3
 import os.path
 from flask.helpers import flash
+from werkzeug.security import check_password_hash, generate_password_hash
 
 
 # Global variable
@@ -15,12 +16,6 @@ class User:
     def __repr__(self):
         return f"<User: {self.username}>"
 
-# List of users
-users = []
-users.append(User(id=0, username= "Micah", password= "1234"))
-
-# print(users)
-
 app = Flask(__name__)
 app.secret_key = "secret"
 
@@ -31,9 +26,12 @@ def before_request():
     g.user = None
     if "user_id" in session:
         # Finds user's id
-        for user in users:
-            if user.id == session["user_id"]:
-                g.user = user
+        sql = "SELECT id, name, password FROM user WHERE id = ?"
+        cursor = get_db().cursor()
+        cursor.execute(sql, (session["user_id"], ))
+        user = cursor.fetchone()
+        if user:
+            g.user = User(*user)
 
 # Makes a connection with database
 DATABASE = "blog.db"
@@ -45,26 +43,27 @@ def login():
         session.pop("user_id", None)
         username = request.form["username"]
         password = request.form["password"]
+        connection = get_db()
+        cursor = connection.cursor()
+        redirect_to = url_for("home")
         # Allows the user to register 
         if request.form.get("register"):
-            user = User(len(users), username, password)
-            print(users)
-            users.append(user)
-            print(users)
-            session["user_id"] = user.id
-            return redirect(url_for("profile"))
-        print(users)
-        for user in users:
-            print(user)
-            # If users can't supply the correct username and password a warning sign pops up
-            print(user.username, user.password, username, password)
-            if user.username == username and user.password == password:
-                session["user_id"] = user.id
-                return redirect(url_for("home"))
+            sql = "INSERT INTO user(name, password) VALUES (?, ?)"
+            cursor.execute(sql, (
+                username, 
+                generate_password_hash(password)
+                )
+            )
+            connection.commit()
+            redirect_to = url_for("profile")
+        sql = "SELECT id, name, password FROM user WHERE name = ?"
+        cursor.execute(sql, (username, ))
+        user = cursor.fetchone()
+        if user and check_password_hash(user[2], password):
+            session["user_id"] = user[0]
+            return redirect(redirect_to)
         flash("Failed to login")
         return redirect(url_for("login"))
-    else:
-        print("hello")
     return render_template("login.html")
 
 # Users that has logged in have a button that'll log them out
@@ -73,7 +72,7 @@ def logout():
     if "user_id" in session:
         flash("logged out successfully")
         session.pop ("user_id", None)
-    print(users)
+        g.user = None
     return redirect(url_for("login"))  
     
 # A page of the user's profile
@@ -83,10 +82,7 @@ def profile():
     if not g.user:
         return redirect(url_for("login"))
     cursor = get_db().cursor()
-    sql = "SELECT bio from user where id = ?"
-    cursor.execute(sql,(session["user_id"],))
-    bio = cursor.fetchone() 
-    return render_template("profile.html", bio=bio)
+    return render_template("profile.html",)
 
 # Connects to the database
 def get_db():
@@ -154,20 +150,6 @@ def delete():
         id = int(request.form["article_heading"])
         sql = "DELETE FROM article WHERE id=?"
         cursor.execute(sql,(id,))
-        get_db().commit()
-    return redirect('/')
-
-@app.route('/bio', methods= ["GET","POST"])
-def bio():
-    if not g.user:
-        return redirect(url_for("login"))
-    if request.method == "POST":
-        cursor = get_db().cursor()
-        bio_page = request.form["bio"]
-        if len(bio_page) > 50:
-                return redirect("/bio")
-        sql = "INSERT INTO user(bio) VALUES (?)"
-        cursor.execute(sql, (bio_page,))
         get_db().commit()
     return redirect('/')
 
