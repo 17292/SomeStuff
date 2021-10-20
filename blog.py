@@ -132,8 +132,8 @@ def add():
         new_body = request.form["article_body"]
         if len(new_body) > 500:
             return redirect("/add")
-        sql = "INSERT INTO article(heading,body) VALUES (?,?)"
-        cursor.execute(sql, (new_heading, new_body))
+        sql = "INSERT INTO article(heading,body, user_id) VALUES (?,?,?)"
+        cursor.execute(sql, (new_heading, new_body, g.user.id))
         get_db().commit()
     return redirect('/')
 
