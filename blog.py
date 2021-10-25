@@ -61,6 +61,7 @@ def login():
         user = cursor.fetchone()
         if user and check_password_hash(user[2], password):
             session["user_id"] = user[0]
+            print("helo")
             return redirect(redirect_to)
         flash("Failed to login")
         return redirect(url_for("login"))
