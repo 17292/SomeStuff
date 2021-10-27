@@ -48,6 +48,14 @@ def login():
         redirect_to = url_for("home")
         # Allows the user to register 
         if request.form.get("register"):
+            sql = "SELECT name FROM user WHERE name = ?"
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute(sql, (username, ))
+            users = cursor.fetchone()
+            if users is not None: 
+                flash("Username is taken")
+                return redirect(url_for("login"))
             sql = "INSERT INTO user(name, password) VALUES (?, ?)"
             cursor.execute(sql, (
                 username, 
